@@ -1,0 +1,51 @@
+﻿@model IEnumerable<TodoMVC.Web.ToDoListModels>
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete All Completed</h2>
+
+<h3>Are you sure you want to delete these?</h3>
+<div>
+    <hr />
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+        </tr>
+
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Subject)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                </tr>
+            }
+
+        }
+    </table>
+
+    <div>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete All" class="btn btn-default" /> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        }
+    </div>
