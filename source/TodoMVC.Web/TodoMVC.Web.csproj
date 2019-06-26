@@ -146,6 +146,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Interface\IToDoListRepository.cs" />
+    <Compile Include="Infrastructure\Repository\ToDoListRepository.cs" />
     <Compile Include="Models\ToDoListViewModel.cs" />
     <Compile Include="Models\TodoMVCWebContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

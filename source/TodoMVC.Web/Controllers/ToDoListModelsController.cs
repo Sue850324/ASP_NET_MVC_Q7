@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TodoMVC.Web.Models;
+using TodoMVC.Web.Infrastructure.Repository;
 using EntityFramework.Extensions;
 
 namespace TodoMVC.Web.Controllers
@@ -47,52 +48,30 @@ namespace TodoMVC.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-
-                toDoList.Subject = x.toDoList.Subject;
-                toDoList.Status = false;
-                listViewModel.toDoList = toDoList;
-                db.ToDoListModels.Add(listViewModel.toDoList);
-                db.SaveChanges();
-
-
+                new ToDoListRepository().Create(x);
                 return RedirectToAction("Index", listViewModel.toDoList);
             }
-
-            return View();
+                return View();
         }
 
 
         public ActionResult Edit(ToDoListModels x)
         {
-            listViewModel.toDoList = db.ToDoListModels.Find(x.Id);
-            if (listViewModel.toDoList.Status == true)
-            {
-                listViewModel.toDoList.Status = false;
-            }
-            else
-            {
-                listViewModel.toDoList.Status = true;
-            }
-            db.SaveChanges();
+            new ToDoListRepository().Edit(x);
             return RedirectToAction("Index", listViewModel);
         }
 
-
-        // POST: ToDoListModels/Delete
         public ActionResult Delete(int id)
         {
-            listViewModel.toDoList = db.ToDoListModels.Find(id);
-            db.ToDoListModels.Remove(listViewModel.toDoList);
-            db.SaveChanges();
+            new ToDoListRepository().Delete(id);
             return RedirectToAction("Index", listViewModel);
         }
 
         [HttpPost]
         public ActionResult DeleteAll(string i)
         {
-            var query = db.ToDoListModels.Where(x => x.Status == true).Delete();
-            db.SaveChanges();
-            return RedirectToAction("Index", query);
+            new ToDoListRepository().DeleteAll(i);
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
