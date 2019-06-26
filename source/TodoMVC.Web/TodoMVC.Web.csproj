@@ -145,6 +145,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ToDoListViewModel.cs" />
     <Compile Include="Models\TodoMVCWebContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ToDoListModel.Context.cs">
@@ -178,13 +179,8 @@
     </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\ToDoListModels\Create.cshtml" />
-    <Content Include="Views\ToDoListModels\Delete.cshtml" />
-    <Content Include="Views\ToDoListModels\Edit.cshtml" />
     <Content Include="Views\ToDoListModels\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\ToDoListModels\Search.cshtml" />
-    <Content Include="Views\ToDoListModels\DeleteAll.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

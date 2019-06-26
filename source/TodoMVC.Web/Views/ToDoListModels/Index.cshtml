@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TodoMVC.Web.ToDoListModels>
+﻿@model TodoMVC.Web.Models.ToDoListViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -6,38 +6,92 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")|
-    @Html.ActionLink("Search", "Search")|
-    @Html.ActionLink("Delete All Completed", "DeleteAll")
-</p>
+
+<form action="/ToDoListModels/Search" method="post">
+    <p>
+        @Html.RadioButton("Status", true)
+        Completed
+        @Html.RadioButton("Status", false, true)
+        Active
+        <button type="submit" class="btn btn-default">Search</button> |
+        @Html.ActionLink("All", "Index")
+    </p>
+</form>
+<form action="/ToDoListModels/DeleteAll" method="post">
+    <p>
+        <button type="submit" class="btn btn-default">Delete All Completed</button>
+    </p>
+</form>
+
+<form action="/ToDoListModels/Create" method="post">
+
+    @Html.AntiForgeryToken()
+
+
+    <div class="form-horizontal">
+        <h4>ToDoListModels</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.toDoList.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.toDoList.Subject, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.toDoList.Subject, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Subject)
+            @Html.DisplayNameFor(model => model.toDoList.Status)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Status)
+            @Html.DisplayNameFor(model => model.toDoList.Subject)
         </th>
+
         <th>
             Action
         </th>
     </tr>
 
-    @foreach (var item in Model)
+    @if (Model.toDoListModels != null)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subject)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
-        </tr>
-    }
+        foreach (var item in Model.toDoListModels)
+        {
+            <tr>
 
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+
+                @if (item.Status == true)
+                {
+                    <td>
+                        <STRIKE>
+                            @Html.DisplayFor(modelItem => item.Subject)
+                        </STRIKE>
+                    </td>
+                }
+                else
+                {
+                    
+                   <td>
+                        @Html.DisplayFor(modelItem => item.Subject)
+                    </td>
+                }
+                <td>
+                    @Html.ActionLink("Change Status", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    }
 </table>
+
