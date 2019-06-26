@@ -19,7 +19,6 @@ namespace TodoMVC.Web.Controllers
         // GET: ToDoListModels
         public ActionResult Index()
         {
-            ToDoListViewModel listViewModel = new ToDoListViewModel();
             listViewModel.toDoListModels = db.ToDoListModels.ToList();
             return View(listViewModel);
         }
