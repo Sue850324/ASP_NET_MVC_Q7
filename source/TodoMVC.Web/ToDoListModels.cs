@@ -11,7 +11,8 @@ namespace TodoMVC.Web
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class ToDoListModels
     {
         public int Id { get; set; }

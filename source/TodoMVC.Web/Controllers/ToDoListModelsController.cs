@@ -26,7 +26,22 @@ namespace TodoMVC.Web.Controllers
 
         // POST: ToDoListModels/Index
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
-        // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
+        [HttpPost]
+        public ActionResult Index(bool status)
+        {
+            if (status == true)
+            {
+                var query = db.ToDoListModels.Where(x => x.Status == true).ToList();
+                listViewModel.toDoListModels = query;
+                return View("Index", listViewModel);
+            }
+            else
+            {
+                var query = db.ToDoListModels.Where(x => x.Status == false).ToList();
+                listViewModel.toDoListModels = query;
+                return View("Index", listViewModel);
+            }
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(ToDoListViewModel x)
@@ -88,27 +103,6 @@ namespace TodoMVC.Web.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-        public ActionResult Search()
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult Search(bool status)
-        {
-            if (status == true)
-            {
-                var query = db.ToDoListModels.Where(x => x.Status == true).ToList();
-                listViewModel.toDoListModels = query;
-                return View("Index", listViewModel);
-            }
-            else
-            {
-                var query = db.ToDoListModels.Where(x => x.Status == false).ToList();
-                listViewModel.toDoListModels = query;
-                return View("Index", listViewModel);
-            }
-        }
-
+        }   
     }
 }
