@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using TodoMVC.Web.Models;
 using TodoMVC.Web.Infrastructure.Repository;
+using TodoMVC.Web.Infrastructure.Service;
 using EntityFramework.Extensions;
 
 namespace TodoMVC.Web.Controllers
@@ -24,23 +25,13 @@ namespace TodoMVC.Web.Controllers
             return View(listViewModel);
         }
 
-        // POST: ToDoListModels/Index
+        // POST: ToDoListModels/Indexep 
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         [HttpPost]
         public ActionResult Index(bool status)
         {
-            if (status == true)
-            {
-                var query = db.ToDoListModels.Where(x => x.Status == true).ToList();
-                listViewModel.toDoListModels = query;
-                return View("Index", listViewModel);
-            }
-            else
-            {
-                var query = db.ToDoListModels.Where(x => x.Status == false).ToList();
-                listViewModel.toDoListModels = query;
-                return View("Index", listViewModel);
-            }
+            new ToDoListService().CompareStatus(status);
+            return View("Index", listViewModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
