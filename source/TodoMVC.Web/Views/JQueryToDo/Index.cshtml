@@ -2,15 +2,171 @@
 <!DOCTYPE html>
 <html>
 <head>
-    @section script
-        {}
 </head>
 <body>
-    <div class="container">
-        <h1>To Do List</h1>
-        <input type="text" id="input">
-        <button id="add">ADD</button>
-        <div class="toDoList"></div>
-    </div>
+    <form id="insert" method="post">
+        <div class="container">
+            <h1>To Do List</h1>
+            <input type="text" name="input" id="input">
+            <button id="add">ADD</button>
+            <div class="toDoList"></div>
+        </div>
+    </form>
+    <hr>
+
+    <button id="completed">Completed</button>
+    <button id="active">Active</button>
+    <button id="all">All</button>
+    <button id="clean">Delete All Complete</button>
+
+    <hr>
+    <form id="todolist" method="POST">
+        <table id="message_table">
+            <tr>
+                <td>Status</td>
+                <td>Subject</td>
+                <td>Action</td>
+            </tr>
+        </table>
+    </form>
 </body>
 </html>
+
+
+<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
+<script>
+    $(document).ready(function () {
+        getList();
+
+    });
+    $("#add").click(function () {
+        add();
+    });
+    $("#completed").click(function () {
+        completed();
+    });
+    $("#active").click(function () {
+        active();
+    });
+    $("#all").click(function () {
+        getList();
+    });
+    $("#clean").click(function () {
+        clean();
+    });
+
+    $(document).on('click', '#change', function () {
+        let id = $(this).closest("td").attr("id");
+        change(id);
+    });
+  
+    $("#cancel").click(function () {
+        cancel();
+    });
+
+
+    function getList() {
+        $.ajax
+            ({
+                url: '/JQueryToDo/GetList/',
+                type: 'get',
+                success: function (data) {
+                    var c = JSON.parse(data);
+                    $('#todolist tr').empty();
+                    $.each(c, function (id, item) {
+                        if (item.Status == true) {
+                            $('#message_table').append('<tr><td>' + '<input type=checkbox checked/>' + '</td><td><STRIKE>' + item.Subject + "</STRIKE></td>" + '<input type="hidden" value="' + item.id + '">'+"<td><button id='change'> Change Status </button><button id = 'cancel'> Delete</button > </td></tr>");
+                        }
+                        else {
+                            $('#message_table').append('<tr><td>' + '<input type="hidden" value="' + item.id + '">' + '<input type=checkbox />' + '</td><td>' + item.Subject + "</td><td><button id='change'> Change Status </button><button id = 'cancel'> Delete</button > </td></tr>");
+
+                        }
+                    })
+                }
+            });
+    }
+    function add() {
+        var Subject = $("#input").val();
+        $.ajax({
+            url: '/JQueryToDo/Add/',
+            type: 'post',
+            data: { "input": Subject },
+            datatype: 'json',
+            success: function (data) {
+                getList();
+            }
+        });
+    }
+    function completed() {
+        $.ajax
+            ({
+                url: '/JQueryToDo/Completed/',
+                type: 'get',
+                success: function (data) {
+                    var c = JSON.parse(data);
+                    $('#todolist tr').empty();
+                    $.each(c, function (id, item) {
+                        if (item.Status == true) {
+                            $('#message_table').append('<tr><td>' + '<input type="hidden" value="' + item.id + '">' + '<input type=checkbox checked/>' + '</td><td><STRIKE>' + item.Subject + "</STRIKE></td><td><button id='change'> Change Status </button><button id = 'delete'> Delete</button > </td></tr>");
+                        }
+                    })
+                }
+            });
+    }
+    function active() {
+        $.ajax
+            ({
+                url: '/JQueryToDo/Active/',
+                type: 'get',
+                success: function (data) {
+                    var c = JSON.parse(data);
+                    $('#todolist tr').empty();
+                    $.each(c, function (id, item) {
+                        if (item.Status == false) {
+                            $('#message_table').append('<tr><td>' + '<input type="hidden" value="' + item.id + '">' + '<input type=checkbox />' + '</td><td>' + item.Subject + "</td><td><button id='change'> Change Status </button><button id = 'delete'> Delete</button > </td></tr>");
+                        }
+                    })
+                }
+            });
+    }
+    function clean() {   
+        $.ajax({
+            url: '/JQueryToDo/Clean/',
+            type: 'get',
+            datatype: 'json',
+            success: function (data) {
+                getList();
+            }
+        });
+    }
+    function change(id) {
+        //var id = $("#id").val();
+        $.ajax({
+            url: '/JQueryToDo/Change/',
+            type: 'post',
+            data: { "Id": id },
+            datatype: 'json',
+            success: function (data) {
+                getList();
+            }
+        });
+    }
+    function cancel() {
+        $.ajax
+            ({
+                url: '/JQueryToDo/Cancel/',
+                type: 'get',
+                success: function (data) {
+                    var c = JSON.parse(data);
+                    $('#todolist tr').empty();
+                    $.each(c, function (id, item) {
+                        if (item.Status == false) {
+                            $('#message_table').append('<tr><td>' + '<input type="hidden" value="' + item.id + '">' + '<input type=checkbox checked/>' + '</td><td>' + item.Subject + "</td><td><button id='change'> Change Status </button><button id = 'delete'> Delete</button > </td></tr>");
+                        }
+                    })
+                }
+            });
+    }
+</script>
+
