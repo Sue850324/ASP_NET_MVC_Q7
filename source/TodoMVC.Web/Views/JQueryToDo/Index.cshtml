@@ -56,10 +56,10 @@
         clean();
     });
     $('#change').click(function () {
-        let id = $(this).closest("td").attr("value");
+        let id = $('#changestatus').val();
         change(id);
     });
-  
+
     $("#cancel").click(function () {
         cancel();
     });
@@ -75,10 +75,10 @@
                     $('#todolist tr').empty();
                     $.each(c, function (id, item) {
                         if (item.Status == true) {
-                            $('#message_table').append('<tr><td>' + '<input type=checkbox checked/>' + '</td><td><STRIKE>' + item.Subject + "</STRIKE></td>" + '<td><button id="change" value="'+item.id+'"> Change Status </button>'+"<button id = 'cancel'> Delete</button > </td></tr>");
+                            $('#message_table').append('<tr><td>' + '<input type="hidden" id="changestatus" value="' + item.Id+'">'+ '<input type=checkbox checked/>' + '</td><td><STRIKE>' + item.Subject + "</STRIKE ></td > " + '<td><button id="change" value="' + item.Id + '"> Change Status </button>' + " < button id = 'cancel' > Delete</button > </td ></tr > ");
                         }
                         else {
-                            $('#message_table').append('<tr><td>' + '<input type=checkbox />' + '</td><td>' + item.Subject + '</td><td><button id="change"  value="'+item.id+'"> Change Status </button>'+"<button id = 'cancel'> Delete</button > </td></tr>");
+                            $('#message_table').append('<tr><td>' + '<input type="hidden" id="changestatus" value="' + item.Id + '">' + '<input type=checkbox />' + '</td><td>' + item.Subject + '</td><td><button id="change"  value="' + item.Id + '"> Change Status </button>' + "<button id = 'cancel'> Delete</button > </td></tr>");
 
                         }
                     })
@@ -107,7 +107,7 @@
                     $('#todolist tr').empty();
                     $.each(c, function (id, item) {
                         if (item.Status == true) {
-                            $('#message_table').append('<tr><td>' + '<input type=checkbox checked/>' + '</td><td><STRIKE>' + item.Subject + '</STRIKE></td><td><button id="change"  value = "'+item.id+'" > Change Status </button>' + '">'+"<button id = 'delete'> Delete</button > </td></tr>");
+                            $('#message_table').append('<tr><td>' + '<input type="hidden" id="changestatus" value="' + item.Id + '">' + '<input type=checkbox checked/>' + '</td><td><STRIKE>' + item.Subject + '</STRIKE></td><td><button id="change"  value = "' + item.id + '" > Change Status </button>' + '">' + "<button id = 'delete'> Delete</button > </td></tr>");
                         }
                     })
                 }
@@ -123,13 +123,13 @@
                     $('#todolist tr').empty();
                     $.each(c, function (id, item) {
                         if (item.Status == false) {
-                            $('#message_table').append('<tr><td>' + '<input type=checkbox />' + '</td><td>' + item.Subject + '</td><td><button id="change" value = "' + item.id +'"> Change Status </button>'+"<button id = 'delete'> Delete</button > </td></tr>");
+                            $('#message_table').append('<tr><td>' + '<input type="hidden" id="changestatus" value="' + item.Id + '">'+ '<input type=checkbox />' + '</td><td>' + item.Subject + '</td><td><button id="change" value = "' + item.id + '"> Change Status </button>' + "<button id = 'delete'> Delete</button > </td></tr>");
                         }
                     })
                 }
             });
     }
-    function clean() {   
+    function clean() {
         $.ajax({
             url: '/JQueryToDo/Clean/',
             type: 'get',
@@ -146,7 +146,7 @@
             data: { "Id": id },
             datatype: 'json',
             success: function (data) {
-                getList();
+                    getList();               
             }
         });
     }
@@ -160,7 +160,7 @@
                     $('#todolist tr').empty();
                     $.each(c, function (id, item) {
                         if (item.Status == false) {
-                            $('#message_table').append('<tr><td>' + '<input type=checkbox checked/>' + '</td><td>' + item.Subject + '</td><td><button id="change" value="'+item.id+'"> Change Status </button>'+"<button id = 'delete'> Delete</button > </td></tr>");
+                            $('#message_table').append('<tr><td>' + '<input type="hidden" id="changestatus" value="' + item.Id + '">' + '<input type=checkbox checked/>' + '</td><td>' + item.Subject + '</td><td><button id="change" value="' + item.id + '"> Change Status </button>' + "<button id = 'delete'> Delete</button > </td></tr>");
                         }
                     })
                 }
