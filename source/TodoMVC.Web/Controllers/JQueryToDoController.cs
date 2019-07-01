@@ -62,19 +62,22 @@ namespace TodoMVC.Web.Controllers
             var query = db.ToDoListModels.Where(x => x.Id == Id).FirstOrDefault();
             if (query.Status == true)
             {
-                toDoList.Status = false;
+                query.Status = false;
             }
             else
             {
-                toDoList.Status = true;
+                  query.Status = true;
             }
             db.SaveChanges();
             string json = JsonConvert.SerializeObject(db.ToDoListModels.ToList());
             return Json(json, JsonRequestBehavior.AllowGet);
         }
      
-        public JsonResult Cancel()
+        public JsonResult Cancel(int Id)
         {
+            var query = db.ToDoListModels.Where(x => x.Id == Id).FirstOrDefault();
+            db.ToDoListModels.Remove(query);
+            db.SaveChanges();
             string json = JsonConvert.SerializeObject(db.ToDoListModels.ToList());
             return Json(json, JsonRequestBehavior.AllowGet);
         }

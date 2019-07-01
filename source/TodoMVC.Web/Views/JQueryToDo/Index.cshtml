@@ -52,17 +52,19 @@
     $("#all").click(function () {
         getList();
     });
-    $("#clean").click(function () {
+
+    $("#clean").click(function (){
         clean();
     });
 
-    $(document).on('click', '#change', function () {
-        let id = $(this).closest("td").attr("id");
-        change(id);
+    $(document).on('click', '.change', function () {
+        let StatusId = $(this).prop('id');
+        change(StatusId);
     });
-  
-    $("#cancel").click(function () {
-        cancel();
+
+    $(document).on('click', '.cancel', function () {
+        let CancelId = $(this).prop('id');
+        cancel(CancelId);
     });
 
 
@@ -73,13 +75,14 @@
                 type: 'get',
                 success: function (data) {
                     var c = JSON.parse(data);
-                    $('#todolist tr').empty();
-                    $.each(c, function (id, item) {
+                    $('#todolist table').empty();
+                    $('#message_table').append('<tr><td>Status</td>'+'<td>Subject</td>'+'<td>Action</td></tr >');
+                    $.each(c, function (id, item) { 
                         if (item.Status == true) {
-                            $('#message_table').append('<tr><td>' + '<input type=checkbox checked/>' + '</td><td><STRIKE>' + item.Subject + "</STRIKE></td>" + '<input type="hidden" value="' + item.id + '">'+"<td><button id='change'> Change Status </button><button id = 'cancel'> Delete</button > </td></tr>");
+                            $('#message_table').append('<tr><td>' + '<input type=checkbox checked/>' + '</td><td><STRIKE>' + item.Subject + "</STRIKE></td>" + '<td><button class="chage" id="' + item.Id + '"> Change Status </button><button class="cancel" id = "' + item.Id + '"> Delete</button > </td></tr>');
                         }
                         else {
-                            $('#message_table').append('<tr><td>' + '<input type="hidden" value="' + item.id + '">' + '<input type=checkbox />' + '</td><td>' + item.Subject + "</td><td><button id='change'> Change Status </button><button id = 'cancel'> Delete</button > </td></tr>");
+                            $('#message_table').append('<tr><td>' + '<input type=checkbox />' + '</td><td>' + item.Subject + '</td><td><button class="change" id="' + item.Id + '"> Change Status </button><button class="cancel" id ="' + item.Id+'"> Delete</button > </td></tr>');
 
                         }
                     })
@@ -108,7 +111,7 @@
                     $('#todolist tr').empty();
                     $.each(c, function (id, item) {
                         if (item.Status == true) {
-                            $('#message_table').append('<tr><td>' + '<input type="hidden" value="' + item.id + '">' + '<input type=checkbox checked/>' + '</td><td><STRIKE>' + item.Subject + "</STRIKE></td><td><button id='change'> Change Status </button><button id = 'delete'> Delete</button > </td></tr>");
+                            $('#message_table').append('<tr><td>' + '<input type=checkbox checked/>' + '</td><td><STRIKE>' + item.Subject + '</STRIKE></td><td><button id="' + item.Id + '"> Change Status </button><button class="cancel" id = "' + item.Id +'"> Delete</button > </td></tr>');
                         }
                     })
                 }
@@ -124,7 +127,7 @@
                     $('#todolist tr').empty();
                     $.each(c, function (id, item) {
                         if (item.Status == false) {
-                            $('#message_table').append('<tr><td>' + '<input type="hidden" value="' + item.id + '">' + '<input type=checkbox />' + '</td><td>' + item.Subject + "</td><td><button id='change'> Change Status </button><button id = 'delete'> Delete</button > </td></tr>");
+                            $('#message_table').append('<tr><td>' + '<input type=checkbox />' + '</td><td>' + item.Subject + '</td><td><button  id="' + item.Id + '">  Change Status </button><button class="cancel" id = "' + item.Id +'"> Delete</button > </td></tr>');
                         }
                     })
                 }
@@ -140,31 +143,26 @@
             }
         });
     }
-    function change(id) {
-        //var id = $("#id").val();
+    function change(StatusId) {
         $.ajax({
             url: '/JQueryToDo/Change/',
             type: 'post',
-            data: { "Id": id },
+            data: { "Id": StatusId },
             datatype: 'json',
             success: function (data) {
                 getList();
             }
         });
     }
-    function cancel() {
+    function cancel(CancelId) {
         $.ajax
             ({
                 url: '/JQueryToDo/Cancel/',
-                type: 'get',
+                type: 'post',
+                data: { "Id": CancelId },
+                datatype: 'json',
                 success: function (data) {
-                    var c = JSON.parse(data);
-                    $('#todolist tr').empty();
-                    $.each(c, function (id, item) {
-                        if (item.Status == false) {
-                            $('#message_table').append('<tr><td>' + '<input type="hidden" value="' + item.id + '">' + '<input type=checkbox checked/>' + '</td><td>' + item.Subject + "</td><td><button id='change'> Change Status </button><button id = 'delete'> Delete</button > </td></tr>");
-                        }
-                    })
+                    getList();
                 }
             });
     }
