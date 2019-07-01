@@ -109,6 +109,7 @@
                 success: function (data) {
                     var c = JSON.parse(data);
                     $('#todolist tr').empty();
+                    $('#message_table').append('<tr><td>Status</td>' + '<td>Subject</td>' + '<td>Action</td></tr >');
                     $.each(c, function (id, item) {
                         if (item.Status == true) {
                             $('#message_table').append('<tr><td>' + '<input type=checkbox checked/>' + '</td><td><STRIKE>' + item.Subject + '</STRIKE></td><td><button id="' + item.Id + '"> Change Status </button><button class="cancel" id = "' + item.Id +'"> Delete</button > </td></tr>');
@@ -125,6 +126,7 @@
                 success: function (data) {
                     var c = JSON.parse(data);
                     $('#todolist tr').empty();
+                    $('#message_table').append('<tr><td>Status</td>' + '<td>Subject</td>' + '<td>Action</td></tr >');
                     $.each(c, function (id, item) {
                         if (item.Status == false) {
                             $('#message_table').append('<tr><td>' + '<input type=checkbox />' + '</td><td>' + item.Subject + '</td><td><button  id="' + item.Id + '">  Change Status </button><button class="cancel" id = "' + item.Id +'"> Delete</button > </td></tr>');
