@@ -60,13 +60,13 @@ namespace TodoMVC.Web.Controllers
         public JsonResult Change(int Id)
         {
             var query = db.ToDoListModels.Where(x => x.Id == Id).FirstOrDefault();
-            if (query.Status == true)
+            if (query.Status == false)
             {
-                query.Status = false;
+                query.Status = true;
             }
             else
             {
-                  query.Status = true;
+                 query.Status = false;
             }
             db.SaveChanges();
             string json = JsonConvert.SerializeObject(db.ToDoListModels.ToList());

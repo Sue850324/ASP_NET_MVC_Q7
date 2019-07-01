@@ -42,6 +42,7 @@
     });
     $("#add").click(function () {
         add();
+        return false;
     });
     $("#completed").click(function () {
         completed();
@@ -60,11 +61,13 @@
     $(document).on('click', '.change', function () {
         let StatusId = $(this).prop('id');
         change(StatusId);
+        return false;
     });
 
     $(document).on('click', '.cancel', function () {
         let CancelId = $(this).prop('id');
         cancel(CancelId);
+        return false;
     });
 
 
@@ -76,10 +79,10 @@
                 success: function (data) {
                     var c = JSON.parse(data);
                     $('#todolist table').empty();
-                    $('#message_table').append('<tr><td>Status</td>'+'<td>Subject</td>'+'<td>Action</td></tr >');
+                    $('#message_table').append('<tr><td>Status</td>'+'<td>Subject</td>'+'<td>Action</td></tr>');
                     $.each(c, function (id, item) { 
                         if (item.Status == true) {
-                            $('#message_table').append('<tr><td>' + '<input type=checkbox checked/>' + '</td><td><STRIKE>' + item.Subject + "</STRIKE></td>" + '<td><button class="chage" id="' + item.Id + '"> Change Status </button><button class="cancel" id = "' + item.Id + '"> Delete</button > </td></tr>');
+                            $('#message_table').append('<tr><td>' + '<input type=checkbox checked/>' + '</td><td><STRIKE>' + item.Subject + "</STRIKE></td>" + '<td><button class="change" id="' + item.Id + '"> Change Status </button><button class="cancel" id = "' + item.Id + '"> Delete</button > </td></tr>');
                         }
                         else {
                             $('#message_table').append('<tr><td>' + '<input type=checkbox />' + '</td><td>' + item.Subject + '</td><td><button class="change" id="' + item.Id + '"> Change Status </button><button class="cancel" id ="' + item.Id+'"> Delete</button > </td></tr>');
@@ -96,20 +99,19 @@
             type: 'post',
             data: { "input": Subject },
             datatype: 'json',
-            success: function (data) {
+            success: function () {
                 getList();
             }
         });
     }
     function completed() {
-        $.ajax
-            ({
+        $.ajax({
                 url: '/JQueryToDo/Completed/',
                 type: 'get',
                 success: function (data) {
                     var c = JSON.parse(data);
                     $('#todolist tr').empty();
-                    $('#message_table').append('<tr><td>Status</td>' + '<td>Subject</td>' + '<td>Action</td></tr >');
+                    $('#message_table').append('<tr><td>Status</td>' + '<td>Subject</td>' + '<td>Action</td></tr>');
                     $.each(c, function (id, item) {
                         if (item.Status == true) {
                             $('#message_table').append('<tr><td>' + '<input type=checkbox checked/>' + '</td><td><STRIKE>' + item.Subject + '</STRIKE></td><td><button id="' + item.Id + '"> Change Status </button><button class="cancel" id = "' + item.Id +'"> Delete</button > </td></tr>');
