@@ -30,9 +30,22 @@ namespace TodoMVC.Web.Controllers
         [HttpPost]
         public ActionResult Index(bool status)
         {
-            new ToDoListService().CompareStatus(status);
+            if (status == true)
+            {
+                var query = db.ToDoListModels.Where(x => x.Status == true).ToList();
+                listViewModel.toDoListModels = query;
+
+            }
+            else
+            {
+                var query = db.ToDoListModels.Where(x => x.Status == false).ToList();
+                listViewModel.toDoListModels = query;
+
+            }
             return View("Index", listViewModel);
         }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(ToDoListViewModel x)
