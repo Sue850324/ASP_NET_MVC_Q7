@@ -16,6 +16,7 @@ namespace TodoMVC.Web.Controllers
         private TodoMVCWebContext db = new TodoMVCWebContext();
         ToDoListViewModel listViewModel = new ToDoListViewModel();
         ToDoListModels toDoList = new ToDoListModels();
+        
     
         // GET: JQueryToDo
         public ActionResult Index()
