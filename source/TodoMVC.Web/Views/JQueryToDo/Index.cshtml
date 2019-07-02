@@ -34,28 +34,31 @@
 
 
 <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <script>
-    $(document).ready(function () {
+    $(function () {
         getList();
-
     });
+
     $("#add").click(function () {
         add();
         return false;
     });
     $("#completed").click(function () {
         completed();
+        return false;
     });
     $("#active").click(function () {
         active();
+        return false;
     });
     $("#all").click(function () {
         getList();
+        return false;
     });
 
     $("#clean").click(function (){
         clean();
+        return false;
     });
 
     $(document).on('click', '.change', function () {
@@ -86,7 +89,6 @@
                         }
                         else {
                             $('#message_table').append('<tr><td>' + '<input type=checkbox />' + '</td><td>' + item.Subject + '</td><td><button class="change" id="' + item.Id + '"> Change Status </button><button class="cancel" id ="' + item.Id+'"> Delete</button > </td></tr>');
-
                         }
                     })
                 }
@@ -128,7 +130,7 @@
                 success: function (data) {
                     var c = JSON.parse(data);
                     $('#todolist tr').empty();
-                    $('#message_table').append('<tr><td>Status</td>' + '<td>Subject</td>' + '<td>Action</td></tr >');
+                    $('#message_table').append('<tr><td>Status</td>' + '<td>Subject</td>' + '<td>Action</td></tr>');
                     $.each(c, function (id, item) {
                         if (item.Status == false) {
                             $('#message_table').append('<tr><td>' + '<input type=checkbox />' + '</td><td>' + item.Subject + '</td><td><button  id="' + item.Id + '">  Change Status </button><button class="cancel" id = "' + item.Id +'"> Delete</button > </td></tr>');
