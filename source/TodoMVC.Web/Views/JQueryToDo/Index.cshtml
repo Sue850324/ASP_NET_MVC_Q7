@@ -96,12 +96,11 @@
             });
     }
     function add() {
-        var Subject = $("#input").val();
+        var subject = $("#input").val();
         $.ajax({
             url: '/JQueryToDo/Add/',
             type: 'post',
-            data: { "input": Subject },
-            datatype: 'json',
+            data: { "input": subject },
             success: function () {
                 getList();
             }
@@ -144,7 +143,6 @@
         $.ajax({
             url: '/JQueryToDo/Clean/',
             type: 'get',
-            datatype: 'json',
             success: function () {
                 getList();
             }
@@ -155,7 +153,6 @@
             url: '/JQueryToDo/Change/',
             type: 'post',
             data: { "Id": statusId },
-            datatype: 'json',
             success: function () {
                 getList();
             }
