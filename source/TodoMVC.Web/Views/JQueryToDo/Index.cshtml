@@ -63,14 +63,14 @@
     });
 
     $(document).on('click', '.change', function () {
-        let StatusId = $(this).attr('data-id');
-        change(StatusId);
+        let statusId = $(this).attr('data-id');
+        change(statusId);
         return false;
     });
 
     $(document).on('click', '.cancel', function () {
-        let CancelId = $(this).attr('data-id');
-        cancel(CancelId);
+        let cancelId = $(this).attr('data-id');
+        cancel(cancelId);
         return false;
     });
 
@@ -145,30 +145,30 @@
             url: '/JQueryToDo/Clean/',
             type: 'get',
             datatype: 'json',
-            success: function (data) {
+            success: function () {
                 getList();
             }
         });
     }
-    function change(StatusId) {
+    function change(statusId) {
         $.ajax({
             url: '/JQueryToDo/Change/',
             type: 'post',
-            data: { "Id": StatusId },
+            data: { "Id": statusId },
             datatype: 'json',
-            success: function (data) {
+            success: function () {
                 getList();
             }
         });
     }
-    function cancel(CancelId) {
+    function cancel(cancelId) {
         $.ajax
             ({
                 url: '/JQueryToDo/Cancel/',
                 type: 'post',
-                data: { "Id": CancelId },
+                data: { "Id": cancelId },
                 datatype: 'json',
-                success: function (data) {
+                success: function () {
                     getList();
                 }
             });
