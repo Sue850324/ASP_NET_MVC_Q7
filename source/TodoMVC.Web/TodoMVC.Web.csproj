@@ -145,8 +145,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Interface\IJQueryToDoRepository.cs" />
     <Compile Include="Infrastructure\Interface\IToDoListRepository.cs" />
     <Compile Include="Infrastructure\Interface\IToDoListService.cs" />
+    <Compile Include="Infrastructure\Repository\JQueryToDoRepository.cs" />
     <Compile Include="Infrastructure\Repository\ToDoListRepository.cs" />
     <Compile Include="Infrastructure\Service\ToDoListService.cs" />
     <Compile Include="Models\ToDoListViewModel.cs" />

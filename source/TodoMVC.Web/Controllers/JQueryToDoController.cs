@@ -16,7 +16,16 @@ namespace TodoMVC.Web.Controllers
         private TodoMVCWebContext db = new TodoMVCWebContext();
         ToDoListViewModel listViewModel = new ToDoListViewModel();
         ToDoListModels toDoList = new ToDoListModels();
-        
+
+        public string CamelCase()
+        {
+           var setting = new JsonSerializerSettings
+            {
+                ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
+            };
+            var json = JsonConvert.SerializeObject(db.ToDoListModels.ToList(), Formatting.None, setting);
+            return json;
+        }
     
         // GET: JQueryToDo
         public ActionResult Index()
@@ -26,63 +35,41 @@ namespace TodoMVC.Web.Controllers
         }
         public JsonResult GetList()
         {
-            string json = JsonConvert.SerializeObject(db.ToDoListModels.ToList());
-            return Json(json,JsonRequestBehavior.AllowGet);
+         
+            return Json(CamelCase(), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public JsonResult Add(string input)
         {
-            toDoList.Subject = input;
-            toDoList.Status = false;
-            listViewModel.toDoList = toDoList;
-            db.ToDoListModels.Add(listViewModel.toDoList);
-            db.SaveChanges();
-            string json = JsonConvert.SerializeObject(db.ToDoListModels.ToList());
-            return Json(json, JsonRequestBehavior.AllowGet);
+            new JQueryToDoRepository().Add(input);
+            return Json(CamelCase(), JsonRequestBehavior.AllowGet);
         }
         public JsonResult Completed()
         {
-            string json = JsonConvert.SerializeObject(db.ToDoListModels.ToList());
-            return Json(json, JsonRequestBehavior.AllowGet);
+         
+            return Json(CamelCase(), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Active()
         {
-            string json = JsonConvert.SerializeObject(db.ToDoListModels.ToList());
-            return Json(json, JsonRequestBehavior.AllowGet);
+          
+            return Json(CamelCase(), JsonRequestBehavior.AllowGet);
         }
         public JsonResult Clean()
         {
-            var query = db.ToDoListModels.Where(x => x.Status == true).Delete();
-            db.SaveChanges();
-            string json = JsonConvert.SerializeObject(db.ToDoListModels.ToList());
-            return Json(json, JsonRequestBehavior.AllowGet);
+            new JQueryToDoRepository().Clean();
+            return Json(CamelCase(), JsonRequestBehavior.AllowGet);
         }
         public JsonResult Change(int Id)
         {
-            var query = db.ToDoListModels.Where(x => x.Id == Id).FirstOrDefault();
-            if (query.Status == false)
-            {
-                query.Status = true;
-            }
-            else
-            {
-                 query.Status = false;
-            }
-            db.SaveChanges();
-            string json = JsonConvert.SerializeObject(db.ToDoListModels.ToList());
-            return Json(json, JsonRequestBehavior.AllowGet);
+            new JQueryToDoRepository().Change(Id);        
+            return Json(CamelCase(), JsonRequestBehavior.AllowGet);
         }
-     
         public JsonResult Cancel(int Id)
         {
-            var query = db.ToDoListModels.Where(x => x.Id == Id).FirstOrDefault();
-            db.ToDoListModels.Remove(query);
-            db.SaveChanges();
-            string json = JsonConvert.SerializeObject(db.ToDoListModels.ToList());
-            return Json(json, JsonRequestBehavior.AllowGet);
+            new JQueryToDoRepository().Cancel(Id);        
+            return Json(CamelCase(), JsonRequestBehavior.AllowGet);
         }
 
-     
     }
 }
