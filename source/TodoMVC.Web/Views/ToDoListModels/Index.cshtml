@@ -4,9 +4,6 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
-
 <form action="/ToDoListModels/Index" method="post">
     <p>
         @Html.RadioButton("Status", true)
@@ -19,7 +16,7 @@
 </form>
 <form action="/ToDoListModels/DeleteAll" method="post">
     <p>
-        <button type="submit" class="btn btn-default">Delete All Completed</button>
+        <button type="submit" class="btn btn-danger">Delete All Completed</button>
     </p>
 </form>
 

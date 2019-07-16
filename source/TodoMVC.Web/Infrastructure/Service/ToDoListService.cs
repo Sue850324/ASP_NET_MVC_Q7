@@ -26,6 +26,7 @@ namespace TodoMVC.Web.Infrastructure.Service
                 listViewModel.toDoListModels = query;
 
             }
+          
         }
     }
 }

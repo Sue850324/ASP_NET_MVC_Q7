@@ -26,7 +26,11 @@ namespace TodoMVC.Web.Controllers
             var json = JsonConvert.SerializeObject(db.ToDoListModels.ToList(), Formatting.None, setting);
             return json;
         }
-    
+
+        public ActionResult VueIndex()
+        {
+            return View();
+        }
         // GET: JQueryToDo
         public ActionResult Index()
         {

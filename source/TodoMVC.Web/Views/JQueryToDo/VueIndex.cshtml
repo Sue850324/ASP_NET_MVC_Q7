@@ -1,0 +1,82 @@
+﻿@* 未完成 *@
+<!DOCTYPE html>
+<h2>To do List</h2>
+<html>
+<head>
+</head>
+<body>
+    <div id="todolist">
+        <input class="form-control" type="text" name="input" v-model="add.subject" placeholder="what to do..." v-on:keyup.enter="add(this.value)">
+        <button class="btn btn-default" v-bind:class="completed" v-on:click="filterData('true')">Completed</button>
+        <button class="btn btn-default" v-bind:class="active" v-on:click="filterData('false')">Active</button>
+        <button class="btn btn-default" v-bind:class="active" v-on:click="filterData()">All</button>
+        <button class="btn btn-danger" v-on:click="clean">Delete All Complete</button>
+    </div>
+    <template v-if="loading">
+        <table class="table table-bordered">
+            <tr>
+                <td>Status</td>
+                <td>Subject</td>
+                <td>Action</td>
+            </tr>
+            <tr v-for="item in Model.toDoListModels" v-on:click.stop.prevent="change(item.id) ">
+                <td>
+                    <input type="checkbox" id="checkbox" v-model="item.completed">
+                </td>
+                <td>
+                    <label>
+                        {{item.subject}}
+                    </label>
+                </td>
+                <td>
+                    <button class="btn btn-danger" v-on:click.stop="delete(item.id)">Delete</button>
+                </td>
+            </tr>
+        </table>
+    </template>
+</body>
+</html>
+
+<script src="~/Scripts/vue.js"></script>
+<script>
+    window.onload = function () {
+        var todolist = new Vue({
+            el: '#todolist',
+            data: {
+                loading: false,
+                viewModel: {
+                    toDoListModels:[]
+                },
+                addItem: {
+                    subject:""
+                },
+                filter: null
+            },
+        })
+    };
+    methods: {
+        add: function () {
+            let self = this,
+                add = self.add,
+                url = config.addAction,
+                data = {
+                    description: add.subject
+                };
+
+            if (!addItem.description) {
+                return;
+            }
+
+            $.post(url, data).always(function (result, status, error) {
+                if (status === "success") {
+                    self.getList();
+                }
+                else {
+                    console.log(error)
+                }
+                addItem.description = null;
+            })
+        },
+
+</script>
+
